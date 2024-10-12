@@ -1,14 +1,15 @@
 .tasks-list {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 10px;
   color: white;
   background-color: purple;
   margin: 5px;
-  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+
   border-radius: 5px;
   width: 90%;
-  height: 60px;
+  height: 100px;
 }
 
 .remove-button {
@@ -27,4 +28,25 @@
 
 .tasks-item {
   font-size: larger;
+}
+
+.complete-checkbox {
+  margin-right: 10px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.task-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.check-div {
+  display: flex;
+  align-items: center;
+}
+
+.check-div label {
+  font-size: small;
 }

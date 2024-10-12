@@ -1,17 +1,55 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AddTaskForm.css";
+import { toast } from "react-hot-toast";
 
-const AddTaskForm = () => {
-  const [inputValues, setInputValues] = useState({ name: "", description: "" });
+const AddTaskForm = ({ addTask, taskToEdit }) => {
+  const [inputValues, setInputValues] = useState({
+    name: "",
+    description: "",
+    completed: false,
+    id: new Date().getTime(),
+  });
+
+  //Prefill the form with the task to edit
+  useEffect(() => {
+    if (taskToEdit) {
+      setInputValues(taskToEdit);
+    }
+  }, [taskToEdit]);
+
+  function handleValidation({ name, description }) {
+    if (!name || !description) {
+      toast.error("Please fill all fields");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(inputValues);
+    const id = new Date().getTime();
+    setInputValues({ ...inputValues, id });
+    const success = handleValidation(inputValues);
+
+    if (!success) {
+      return;
+    }
+
+    addTask(inputValues);
+
+    setInputValues({
+      name: "",
+      description: "",
+      completed: false,
+      id: id,
+    });
   };
   return (
     <form className="form-container" onSubmit={submitHandler}>
       <div className="input-task">
-        <label for="inputTask">Task name</label>
+        <label htmlFor="inputTask">Task name</label>
         <input
           id="todo-text"
           type="text"
@@ -21,7 +59,7 @@ const AddTaskForm = () => {
             setInputValues({ ...inputValues, name: e.target.value });
           }}
         />
-        <label for="task-description">Task Description</label>
+        <label htmlFor="task-description">Task Description</label>
         <textarea
           id="task-description"
           placeholder="Enter task description"
